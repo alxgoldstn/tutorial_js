@@ -1,5 +1,6 @@
 //Alex Goldstein
 //Learning Javascript with "Javascript: The Definitive Guide," 6th Edition.
+//Chapter 1
 
 // These are comments in Javascript.
 /* These are block comments. 
