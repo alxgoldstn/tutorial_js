@@ -63,6 +63,7 @@ console.log(
 // For information that must be exact (eg, finance), use scaled integers (eg $5 --> 500)
 // or I may try to build this later.
 
+
 // Dates
 var then = new Date(2015, 3, 15); // Year: 2015; Month: April (3 from 0-index); Day: 16 (15 from 0-index);
 var laterInDay = new Date(2015, 3, 15, 19, 20, 10); //Same, at 7:20:10pm, local time
@@ -73,5 +74,109 @@ console.log(now - then); //Time difference in milliseconds
 
 console.log(now.getFullYear(), now.getMonth(), now.getDate(), now.getDay(), now.getHours());
 console.log(now.toString()); // Fancy
+console.log(now.toLocaleDateString()); //MM/DD/YYYY
 
 
+// Text in Javascript
+// To write Unicode characters into Javascript strings, use \uXXXX, where XXXX == hex code
+console.log("\u03c0");
+
+var x = "Hello";
+console.log( //some string methods
+    x.charAt(0), // Also can use x[0], however this only works as of ECMAScript 5
+    x.substring(1,3),
+    x.slice(-2), //last 2 characters
+    x.indexOf("l"),
+    x.indexOf("l", 3), //index at/after 3rd index
+    x.indexOf("q"), //-1, not found
+    x.split("e"),
+    x.replace("l", "L"),
+    x.toUpperCase()
+    );
+console.log(x); // Note that x is still unchanged after the previous methods are called
+
+
+// Boolean
+if(
+    false 
+    || undefined 
+    || null 
+    || 0 
+    || -0 
+    || NaN 
+    || "" //empty string
+    )
+    console.log("Something is wrong."); //this will not print
+
+var o = {x:1};
+var p = {x:1};
+console.log(o == p); // Objects can never be equal, even if properties are equal.
+                     // They both reference different places in memory
+p = o; //However, we can make p reference the same object as o
+p.newProp = "I'm a property of O and P!"; //Add a new property to the object p refers to
+console.log(o.newProp); // o now has the property p created; they refer to the same memory
+console.log(o == p); //true
+
+// This also demonstrates that, to copy an object (arrays are objects), you must copy all properties
+var a = [1,3,5,7];
+var b = [];
+for(var i = 0; i < a.length; i++)
+    b[i] = a[i];
+console.log(b);
+
+function equalArrays(arr1, arr2) { // To check if two objects are equal, we must compare their properties/elements
+    if(arr1.length != arr2.length)
+        return false;
+    for(var i = 0; i < arr1.length; i++)
+        if(arr1[i] != arr2[i])
+            return false;
+    return true;
+}
+console.log(equalArrays(a,b));
+console.log(equalArrays(a,[3,4,5]));
+
+
+// Conversions to String
+var n = 367;
+console.log(
+    n.toString(),
+    n.toString(2), //binary
+    n.toString(8), //octal
+    n.toString(16) //hex
+    );
+
+n = 1344526.78567;
+console.log(
+    n.toFixed(0), //0 digits after decimal
+    n.toFixed(2),
+    n.toExponential(4), //expresses in scientific notation, with 4 digits after decimal
+    n.toPrecision(10) //expresses as specified number of significant figures
+    );
+
+console.log(
+    parseInt("5 eggs"),
+    parseInt("0xff3"),
+    parseInt("4.56"),
+    parseFloat("0.1"),
+    parseFloat(".1") //Typically, NaN, cannot start with a `.` In some browsers, however, this works.
+    );
+
+console.log( {x:4, y:20, z:"HeLLo"}.toString() ); //All objects have a toString() method
+console.log(equalArrays.toString()); //even functions have toString()
+
+
+// Scope
+var scope = "global";
+function checkScope() {
+    var scope = "local"; // declaring `var scope` hides the global variable `scope`
+    return scope;
+}
+console.log(checkScope()); // prints "local"
+
+/*NOTE: DO NOT omit the `var` keyword. Technically, it can be omitted at the global scope
+when using non-strict JS; however, inside of a function, omitting `var` before a function
+declaration/initilization will add that variable to the GLOBAL scope, and if that variable
+already exists in the global scope, it will modify that global variable instead of creating
+and working with its own, function-specific-scoped variable. */
+
+// Highly recommended: read Ch. 3.10 ("Variable Scope") in the book; it is more detailed and important.
